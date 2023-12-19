@@ -1,0 +1,42 @@
+{
+    "name": "joemires/superban",
+    "description": "A set of tools to make working with Data Transfer Objects easier in Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "role": "Developer",
+            "name": "Joseph Bassey",
+            "email": "joemires596@gmail.com",
+            "homepage": "https://www.joemires.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Joemires\\Superban\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Joemires\\Superban\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Joemires\\Superban\\SuperbanServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.30"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}
