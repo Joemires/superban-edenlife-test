@@ -6,5 +6,5 @@ return [
      * This accepts any driver available in laravel cache driver
      * Leave as null to use your default cache driver
      */
-    'driver' => null,
+    'driver' => env('SUPERBAN_CACHE_DRIVER', null),
 ];
