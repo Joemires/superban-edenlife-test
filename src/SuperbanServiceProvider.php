@@ -15,6 +15,10 @@ final class SuperbanServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__.'/../config/superban.php' => config_path('superban.php')], 'config');
+        }
+
         app('router')->aliasMiddleware('superban', Middleware\Superban::class);
     }
 
@@ -25,6 +29,6 @@ final class SuperbanServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->mergeConfigFrom(__DIR__.'/../config/superban.php', 'superban');
     }
 }

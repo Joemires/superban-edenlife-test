@@ -4,8 +4,8 @@ namespace Joemires\Superban\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 
 class Superban
@@ -21,7 +21,11 @@ class Superban
 
         $ttl_key = $request->path() . ':' . $id;
 
-        $banned_ttl = Cache::get($ttl_key . ':banned');
+        $driver = config('superban.driver', config('cache.default'));
+
+        $cache = Cache::store($driver);
+
+        $banned_ttl = $cache->get($ttl_key . ':banned');
 
         if($banned_ttl) {
             abort(429, 'Too Many Request...', [
@@ -32,12 +36,14 @@ class Superban
             ]);
         }
 
-        $executed = RateLimiter::attempt(key: $ttl_key, maxAttempts: $request_count, decaySeconds: $request_duration * 60, callback: fn () => null);
+        $limiter = app(RateLimiter::class, ['cache' => $cache]);
 
-        if (RateLimiter::tooManyAttempts(key: $ttl_key, maxAttempts: $request_count)) {
+        $executed = $limiter->attempt(key: $ttl_key, maxAttempts: $request_count, decaySeconds: $request_duration * 60, callback: fn () => null);
+
+        if ($limiter->tooManyAttempts(key: $ttl_key, maxAttempts: $request_count)) {
             $banned_ttl = now()->addMinutes($banned_duration);
 
-            Cache::add($ttl_key . ':banned', $banned_ttl, $banned_ttl);
+            $cache->add($ttl_key . ':banned', $banned_ttl, $banned_ttl);
 
             abort(429, 'Too Many Request...', [
                 'X-RateLimit-Limit' => $request_count,
