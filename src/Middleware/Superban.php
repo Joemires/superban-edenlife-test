@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
+use Joemires\Superban\Exceptions\InvalidIdentifierException;
 
 class Superban
 {
@@ -17,7 +18,9 @@ class Superban
      */
     public function handle(Request $request, Closure $next, int $request_count = 10, int $request_duration = 1, int $banned_duration = 1): Response
     {
-        $id = $request->user()?->id ?: $request->ip();
+        throw_unless(in_array(config('superban.identifier'), ['ip', 'fingerprint']), InvalidIdentifierException::class, 'Invalid identifer, please check and try again');
+
+        $id = $request->user()?->id ?: (config('superban.identifier') == 'ip' ? $request->ip() : $request->fingerprint());
 
         $ttl_key = $request->path() . ':' . $id;
 
