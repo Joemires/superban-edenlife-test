@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"Joemires\\Superban\\Tests\\Feature\\SuperbanTest::testRouteIsProtectedBySuperban":0.034,"Joemires\\Superban\\Tests\\Feature\\SuperbanTest::testRouteIsNotProtectedBySuperban":0.003}}

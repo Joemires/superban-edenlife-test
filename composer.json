@@ -38,5 +38,9 @@
         "sort-packages": true,
         "preferred-install": "dist",
         "optimize-autoloader": true
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.18",
+        "phpunit/phpunit": "^10.5"
     }
 }
