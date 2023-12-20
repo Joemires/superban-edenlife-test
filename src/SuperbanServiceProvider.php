@@ -15,7 +15,7 @@ final class SuperbanServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        app('router')->aliasMiddleware('superban', Middleware\Superban::class);
     }
 
     /**
@@ -25,6 +25,6 @@ final class SuperbanServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 }
