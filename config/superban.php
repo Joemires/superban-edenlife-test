@@ -13,6 +13,5 @@ return [
      * The two available is IP and Fingerprint
      * Default is ip address, you can customize it to your feel
      */
-
-     'identifier' => env('SUPERBAN_IDENTIFIER', 'ip')
+    'identifier' => env('SUPERBAN_IDENTIFIER', 'ip')
 ];
