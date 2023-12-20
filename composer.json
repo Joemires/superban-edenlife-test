@@ -40,7 +40,9 @@
         "optimize-autoloader": true
     },
     "require-dev": {
+        "laravel/pint": "^1.13",
         "orchestra/testbench": "^8.18",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.5"
     }
 }

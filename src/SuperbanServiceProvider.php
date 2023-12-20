@@ -19,7 +19,7 @@ final class SuperbanServiceProvider extends ServiceProvider
             $this->publishes([__DIR__.'/../config/superban.php' => config_path('superban.php')], 'config');
         }
 
-        app('router')->aliasMiddleware('superban', Middleware\Superban::class);
+        $this->app->make('router')->aliasMiddleware('superban', Middleware\Superban::class);
     }
 
     /**

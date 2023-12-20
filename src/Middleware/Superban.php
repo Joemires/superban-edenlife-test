@@ -15,7 +15,7 @@ class Superban
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $request_count = 10, $request_duration = 1, $banned_duration = 1): Response
+    public function handle(Request $request, Closure $next, int $request_count = 10, int $request_duration = 1, int $banned_duration = 1): Response
     {
         $id = $request->user()?->id ?: $request->ip();
 
@@ -55,8 +55,8 @@ class Superban
 
         $response = $next($request);
 
-        $response->headers->set('X-RateLimit-Limit', $request_count);
-        $response->headers->set('X-RateLimit-Remaining', $request_count - Cache::get($ttl_key));
+        $response->headers->set('X-RateLimit-Limit', (string) $request_count);
+        $response->headers->set('X-RateLimit-Remaining', (string) ($request_count - Cache::get($ttl_key)));
 
         return $response;
     }
